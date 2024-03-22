@@ -9,6 +9,7 @@ const siteSchema = new mongoose.Schema({
   },
   properties: {
     siteID: { type: Number, required: true },
+    dateCreated: { type: String, required: true },
     trees: { type: [String], default: [] },
   },
 });
@@ -22,7 +23,8 @@ const validate = (site) => {
     },
     properties: {
       siteID: joi.number().required(),
-      trees: joi.string().default([""]),
+      dateCreated: joi.string().required(),
+      trees: joi.string().default([""]).allow(""),
     },
   });
   return schema.validate(site);

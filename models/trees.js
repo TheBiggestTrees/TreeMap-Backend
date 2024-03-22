@@ -13,6 +13,7 @@ const treeSchema = new mongoose.Schema({
     siteID: { type: String, required: true },
     needsWork: { type: Boolean, required: true },
     datePlanted: { type: String, required: true },
+    dateCreated: { type: String, required: true },
     lastWorkDate: { type: String, required: true },
   },
 });
@@ -30,6 +31,7 @@ const validate = (tree) => {
       siteID: joi.string().required(),
       needsWork: joi.boolean().required(),
       datePlanted: joi.string().required(),
+      dateCreated: joi.string().required(),
       lastWorkDate: joi.string().required(),
     },
   });
