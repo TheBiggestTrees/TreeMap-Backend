@@ -5,8 +5,11 @@ const app = express();
 const PORT = process.env.PORT || 80;
 const addSiteRoute = require("./routes/addSiteRoute");
 const addTreeRoute = require("./routes/addTreeRoute");
-const uri =
-  "mongodb+srv://treeleaves229:dMOKFrGVhROw0J15@treemap.rly2lvi.mongodb.net/?retryWrites=true&w=majority&appName=TreeMap";
+const userRoutes = require("./routes/users");
+const authRoutes = require("./routes/auth");
+
+const uri = process.env.MONGODB_URI;
+
 mongoose
   .connect(uri)
   .then(() => {
@@ -16,8 +19,11 @@ mongoose
         origin: "*",
       })
     );
+
     app.use("/tree", addTreeRoute);
     app.use("/site", addSiteRoute);
+    app.use("/users", userRoutes);
+    app.use("/login", authRoutes);
 
     console.log("Connected to MongoDB");
     app.listen(PORT, () => {
