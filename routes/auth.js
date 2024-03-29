@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
     return res.status(400).send({ message: "Invalid email or password" });
 
   const token = user.generateAuthToken();
-  res.status(200).send({ data: token, message: "Signing in please wait..." });
+  res.status(200).send({ data: token, userID: _id, message: "Signing in please wait..." });
 });
 
 module.exports = router;
