@@ -70,16 +70,54 @@ router.post("/:id", async (req, res) => {
 router.put("/edit/:id", async (req, res) => {
   const schema = Joi.object({
     properties: {
-      needsWork: Joi.string().required(),
-    },
+      treeID: Joi.number().required(),
+      treeSpecies: Joi.string().required(), 
+      treeFamily: Joi.string().required(),
+      status: Joi.string().required(),
+      condition: Joi.string().required(),
+      leafCondition: Joi.string().required(),
+      comment: Joi.string().required(),
+      lastModifiedDate: Joi.string().required(),
+      lastModifiedBy: Joi.string().required(),
+      lastWorkDate: Joi.string().required(),
+      lastWorkedBy: Joi.string().required(),
+      needsWork: Joi.boolean().required(),
+      needsWorkComment: Joi.array().required(),
+      dbh: Joi.number().required(),
+      dateCreated: Joi.string().required(),
+      createdBy: Joi.string().required(),
+      plantedBy: Joi.string().required(),
+      datePlanted: Joi.string().required(),
+      photos: Joi.array().required(),
+      siteID: Joi.string().required(),
+    }
   });
+
   const { error } = schema.validate(req.body);
   if (error) return res.status(400).send({ message: error.details[0].message });
 
   const tree = await Tree.findById(req.params.id);
   if (!tree) return res.status(404).send({ message: "Tree not found" });
 
+  tree.properties.treeSpecies = req.body.properties.treeSpecies;
+  tree.properties.treeFamily = req.body.properties.treeFamily;
+  tree.properties.status = req.body.properties.status;
+  tree.properties.condition = req.body.properties.condition;
+  tree.properties.leafCondition = req.body.properties.leafCondition;
+  tree.properties.comment = req.body.properties.comment;
+  tree.properties.lastModifiedDate = req.body.properties.lastModifiedDate;
+  tree.properties.lastModifiedBy = req.body.properties.lastModifiedBy;
+  tree.properties.lastWorkDate = req.body.properties.lastWorkDate;
+  tree.properties.lastWorkedBy = req.body.properties.lastWorkedBy;
   tree.properties.needsWork = req.body.properties.needsWork;
+  tree.properties.needsWorkComment = req.body.properties.needsWorkComment;
+  tree.properties.dbh = req.body.properties.dbh;
+  tree.properties.dateCreated = req.body.properties.dateCreated;
+  tree.properties.createdBy = req.body.properties.createdBy;
+  tree.properties.plantedBy = req.body.properties.plantedBy;
+  tree.properties.datePlanted = req.body.properties.datePlanted;
+  tree.properties.photos = req.body.properties.photos;
+
   await tree.save();
 
   res.status(200).send({ message: "Updated Tree!" });
