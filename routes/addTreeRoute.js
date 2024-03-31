@@ -4,6 +4,7 @@ const { Tree, validate } = require("../models/trees");
 const { Site } = require("../models/sites");
 const auth = require("../middleware/auth");
 const { User } = require("../models/user");
+const jwt = require("jsonwebtoken");
 
 //get all trees
 router.get("/", async (req, res) => {
