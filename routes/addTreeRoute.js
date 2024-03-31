@@ -122,7 +122,7 @@ router.put("/edit/:id", auth, async (req, res) => {
   const minutes = date.getMinutes();
   const seconds = date.getSeconds();
   req.body.properties.lastModifiedDate = `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`;
-  
+
 
   tree.properties.treeSpecies = req.body.properties.treeSpecies;
   tree.properties.treeFamily = req.body.properties.treeFamily;
@@ -144,7 +144,7 @@ router.put("/edit/:id", auth, async (req, res) => {
 
   await tree.save();
 
-  res.status(200).send({ message: "Updated Tree!" });
+  res.status(200).send({ message: "Updated Tree!", data: tree });
 });
 
 module.exports = router;
