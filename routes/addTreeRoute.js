@@ -34,12 +34,12 @@ router.post("/:id", async (req, res) => {
   if (!site) return res.status(404).send({ message: "Site not found" });
 
   //find tree data based on array of tree ids from site properties trees array
-  const validTreeIds = site.properties.trees.filter(id => id);
+  const validTreeIds = site.properties.trees.filter((id) => id);
   const records = await Tree.find({ _id: { $in: validTreeIds } });
 
   //Check if any tree id already exists in records and add new tree using Tree.js from "../models/trees" if none exists. Making sure to set the treeID to the last value of treeID in the site list of trees + 1. If there are no trees in the site, set the treeID to 1.
 
-  const existingTreeIds = records.map((record) => record.properties.treeID);   
+  const existingTreeIds = records.map((record) => record.properties.treeID);
   const lastTreeId = Math.max(...existingTreeIds);
   const newTreeId = lastTreeId !== -Infinity ? lastTreeId + 1 : 1;
 
@@ -55,16 +55,16 @@ router.post("/:id", async (req, res) => {
 
     if (site.properties.trees === "") {
       site.properties.trees = [newTree._id];
-    } else {site.properties.trees = [...site.properties.trees, newTree._id];}
-  
+    } else {
+      site.properties.trees = [...site.properties.trees, newTree._id];
+    }
+
     await site.save();
 
     res.status(201).send({ message: "Tree created", data: newTree });
   } catch (error) {
     return res.status(500).send({ message: "Failed to create tree" });
   }
-
-
 });
 
 //edit tree by id
@@ -72,7 +72,7 @@ router.put("/edit/:id", auth, async (req, res) => {
   const schema = Joi.object({
     properties: {
       treeID: Joi.number().required(),
-      treeSpecies: Joi.string().required(), 
+      treeSpecies: Joi.string().required(),
       treeFamily: Joi.string().required(),
       status: Joi.string().required(),
       condition: Joi.string().required(),
@@ -91,7 +91,7 @@ router.put("/edit/:id", auth, async (req, res) => {
       datePlanted: Joi.string().required(),
       photos: Joi.array().required(),
       siteID: Joi.string().required(),
-    }
+    },
   });
 
   const { error } = schema.validate(req.body);
@@ -102,7 +102,7 @@ router.put("/edit/:id", auth, async (req, res) => {
 
   if (req.body.properties.needsWorkComment.length >= 1) {
     tree.properties.needsWork = true;
-  } else if (req.body.properties.needsWorkComment.length === 0){
+  } else if (req.body.properties.needsWorkComment.length === 0) {
     tree.properties.needsWork = false;
   }
 
@@ -113,16 +113,19 @@ router.put("/edit/:id", auth, async (req, res) => {
   if (!user) return res.status(404).send({ message: "User not found" });
   req.body.properties.lastModifiedBy = `${user.firstName} ${user.lastName}`;
 
-  //update last modified date with current date and time in mm/dd/yyyy hh:mm:ss format
+  //update last modified date with current date and time in mm/dd/yyyy hh:mm:ss format in local time
   const date = new Date();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const year = date.getFullYear();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
-  req.body.properties.lastModifiedDate = `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`;
-
+  
+  req.body.properties.lastModifiedDate = date.toLocaleString("en-US", {
+    timeZone: "America/Chicago",
+    hour12: true,
+    month: "2-digit",
+    day: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
 
   tree.properties.treeSpecies = req.body.properties.treeSpecies;
   tree.properties.treeFamily = req.body.properties.treeFamily;
