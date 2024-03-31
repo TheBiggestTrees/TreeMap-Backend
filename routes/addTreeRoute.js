@@ -99,6 +99,11 @@ router.put("/edit/:id", async (req, res) => {
   const tree = await Tree.findById(req.params.id);
   if (!tree) return res.status(404).send({ message: "Tree not found" });
 
+  if (req.body.properties.needsWorkComment.length > 0) {
+    tree.properties.needsWork = true;
+  } else if (req.body.properties.needsWorkComment.length === 0){
+    tree.properties.needsWork = false;
+  }
   tree.properties.treeSpecies = req.body.properties.treeSpecies;
   tree.properties.treeFamily = req.body.properties.treeFamily;
   tree.properties.status = req.body.properties.status;
@@ -109,7 +114,6 @@ router.put("/edit/:id", async (req, res) => {
   tree.properties.lastModifiedBy = req.body.properties.lastModifiedBy;
   tree.properties.lastWorkDate = req.body.properties.lastWorkDate;
   tree.properties.lastWorkedBy = req.body.properties.lastWorkedBy;
-  tree.properties.needsWork = req.body.properties.needsWork;
   tree.properties.needsWorkComment = req.body.properties.needsWorkComment;
   tree.properties.dbh = req.body.properties.dbh;
   tree.properties.dateCreated = req.body.properties.dateCreated;
