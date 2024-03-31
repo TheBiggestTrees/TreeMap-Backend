@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const Joi = require("joi");
-const validObjectId = require("../middleware/validObjectId");
 const { Tree, validate } = require("../models/trees");
 const { Site } = require("../models/sites");
-const { ObjectId } = require("mongodb");
+const auth = require("../middleware/auth");
+const { User } = require("../models/user");
 
 //get all trees
 router.get("/", async (req, res) => {
@@ -67,7 +67,7 @@ router.post("/:id", async (req, res) => {
 });
 
 //edit tree by id
-router.put("/edit/:id", async (req, res) => {
+router.put("/edit/:id", auth, async (req, res) => {
   const schema = Joi.object({
     properties: {
       treeID: Joi.number().required(),
@@ -104,6 +104,16 @@ router.put("/edit/:id", async (req, res) => {
   } else if (req.body.properties.needsWorkComment.length === 0){
     tree.properties.needsWork = false;
   }
+
+  //use token to get user id and set lastModifiedBy to user's full name
+  const token = req.header("x-auth-token");
+  const decoded = jwt.verify(token, process.env.JWTPRIVATEKEY);
+  const user = await User.findById(decoded._id);
+  if (!user) return res.status(404).send({ message: "User not found" });
+  req.body.properties.lastModifiedBy = `${user.firstName} ${user.lastName}`;
+
+
+
   tree.properties.treeSpecies = req.body.properties.treeSpecies;
   tree.properties.treeFamily = req.body.properties.treeFamily;
   tree.properties.status = req.body.properties.status;
