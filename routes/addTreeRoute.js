@@ -99,9 +99,9 @@ router.put("/edit/:id", async (req, res) => {
   const tree = await Tree.findById(req.params.id);
   if (!tree) return res.status(404).send({ message: "Tree not found" });
 
-  if (req.body.properties.needsWorkComment.length > 0) {
+  if (req.body.properties.needsWorkComment.length >= 1) {
     tree.properties.needsWork = true;
-  } else if (!req.body.properties.needsWorkComment){
+  } else if (req.body.properties.needsWorkComment.length === 0){
     tree.properties.needsWork = false;
   }
   tree.properties.treeSpecies = req.body.properties.treeSpecies;
