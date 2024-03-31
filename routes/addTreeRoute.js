@@ -113,7 +113,16 @@ router.put("/edit/:id", auth, async (req, res) => {
   if (!user) return res.status(404).send({ message: "User not found" });
   req.body.properties.lastModifiedBy = `${user.firstName} ${user.lastName}`;
 
-
+  //update last modified date with current date and time in mm/dd/yyyy hh:mm:ss format
+  const date = new Date();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const year = date.getFullYear();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  req.body.properties.lastModifiedDate = `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`;
+  
 
   tree.properties.treeSpecies = req.body.properties.treeSpecies;
   tree.properties.treeFamily = req.body.properties.treeFamily;
