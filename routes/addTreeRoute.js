@@ -24,7 +24,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //create tree
-router.post("/:id", async (req, res) => {
+router.post("/:id", auth, async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send({ message: error.details[0].message });
   // console.log(req.body);
@@ -47,6 +47,12 @@ router.post("/:id", async (req, res) => {
     return res.status(400).send({ message: "Tree ID already exists" });
   }
 
+  //use token to get user id and set lastModifiedBy to user's full name
+  const token = req.header("x-auth-token");
+  const decoded = jwt.verify(token, process.env.JWTPRIVATEKEY);
+  const user = await User.findById(decoded._id);
+  if (!user) return res.status(404).send({ message: "User not found" });
+  req.body.properties.createdBy = `${user.firstName} ${user.lastName}`;
   req.body.properties.treeID = newTreeId;
   req.body.properties.siteID = req.params.id;
 
@@ -115,7 +121,7 @@ router.put("/edit/:id", auth, async (req, res) => {
 
   //update last modified date with current date and time in mm/dd/yyyy hh:mm:ss format in local time
   const date = new Date();
-  
+
   req.body.properties.lastModifiedDate = date.toLocaleString("en-US", {
     timeZone: "America/Chicago",
     hour12: true,
