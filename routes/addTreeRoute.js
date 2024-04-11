@@ -93,6 +93,7 @@ router.put("/edit/:id", auth, async (req, res) => {
       dbh: Joi.number().required(),
       dateCreated: Joi.string().required(),
       createdBy: Joi.string().required(),
+      isPlanted: Joi.boolean().required(),
       plantedBy: Joi.string().required(),
       datePlanted: Joi.string().required(),
       photos: Joi.array().required(),
@@ -147,6 +148,7 @@ router.put("/edit/:id", auth, async (req, res) => {
   tree.properties.dbh = req.body.properties.dbh;
   tree.properties.dateCreated = req.body.properties.dateCreated;
   tree.properties.createdBy = req.body.properties.createdBy;
+  tree.properties.isPlanted = req.body.properties.isPlanted;
   tree.properties.plantedBy = req.body.properties.plantedBy;
   tree.properties.datePlanted = req.body.properties.datePlanted;
   tree.properties.photos = req.body.properties.photos;
