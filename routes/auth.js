@@ -8,7 +8,7 @@ router.post("/", async (req, res) => {
     user = await User.findOne({ email: req.body.email });
   } else if (req.body.username) {
     user = await User.findOne({ username: req.body.username });
-  } 
+  }
 
   if (!user || user === null || user === undefined)
     return res.status(400).send({ message: "Invalid email or password" });
@@ -18,7 +18,14 @@ router.post("/", async (req, res) => {
     return res.status(400).send({ message: "Invalid email or password" });
 
   const token = user.generateAuthToken();
-  res.status(200).send({ data: token, userID: user._id, message: "Signing in please wait..." });
+  res
+    .status(200)
+    .send({
+      data: token,
+      userID: user._id,
+      userData: user,
+      message: "Signing in please wait...",
+    });
 });
 
 module.exports = router;
