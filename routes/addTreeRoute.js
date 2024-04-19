@@ -83,7 +83,7 @@ router.put("/edit/:id", auth, async (req, res) => {
       status: Joi.string().required(),
       condition: Joi.string().required(),
       leafCondition: Joi.string().required(),
-      comment: Joi.string().required(),
+      comment: Joi.array().required(),
       lastModifiedDate: Joi.string().required(),
       lastModifiedBy: Joi.string().required(),
       lastWorkDate: Joi.string().required(),
