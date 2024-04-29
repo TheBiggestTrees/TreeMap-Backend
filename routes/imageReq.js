@@ -30,7 +30,8 @@ router.get("/:id", auth, async (req, res) => {
   try {
     const command = new GetObjectCommand(options);
     const response = getSignedUrl(client, command, { expires: 3600 });
-    res.send(response);
+    console.log(response);
+    res.status(200).send(response);
   } catch (err) {
     res.status(404).send("Image not found");
   }
