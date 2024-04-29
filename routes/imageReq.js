@@ -30,4 +30,4 @@ router.get("/:id", auth, async (req, res) => {
     res.status(400).send({ message: "Image not found" });
   }
 });
-module.exports = images;
+module.exports = router;
