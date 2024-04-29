@@ -29,7 +29,7 @@ router.get("/:id", auth, async (req, res) => {
 
   try {
     const command = new GetObjectCommand(options);
-    const response = getSignedUrl(client, command, { expires: 3600 });
+    const response = await getSignedUrl(client, command, { expires: 3600 });
     console.log(response);
     res.status(200).send(response);
   } catch (err) {
