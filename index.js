@@ -7,6 +7,7 @@ const addSiteRoute = require("./routes/addSiteRoute");
 const addTreeRoute = require("./routes/addTreeRoute");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
+const images = require("./routes/imageReq");
 
 const uri = process.env.MONGO_URI;
 
@@ -24,6 +25,7 @@ mongoose
     app.use("/site", addSiteRoute);
     app.use("/users", userRoutes);
     app.use("/login", authRoutes);
+    app.use("/images", images);
 
     console.log("Connected to MongoDB");
     app.listen(PORT, () => {
