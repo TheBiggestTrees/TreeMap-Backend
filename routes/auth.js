@@ -3,6 +3,7 @@ const { User } = require("../models/user");
 const bcrypt = require("bcrypt");
 
 router.post("/", async (req, res) => {
+  console.log(res);
   let user;
   if (req.body.email) {
     user = await User.findOne({ email: req.body.email });
