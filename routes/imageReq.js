@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 const { defaultProvider } = require("@aws-sdk/credential-provider-node");
+const auth = require("../middleware/auth");
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   const credentials = defaultProvider({
     accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY,
