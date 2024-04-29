@@ -14,7 +14,11 @@ router.get("/:id", auth, async (req, res) => {
     Key: `treeimages/${req.params.id}`,
   };
 
-  const client = new S3Client({ region: "us-central-1", credentials });
+  const client = new S3Client({
+    region: "us-central-1",
+    credentials,
+    endpoint: "s3.us-central-1.wasabisys.com",
+  });
 
   try {
     const data = await client.send(new GetObjectCommand(options));
