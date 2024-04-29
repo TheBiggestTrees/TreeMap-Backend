@@ -2,10 +2,10 @@ const router = require("express").Router();
 const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 const { defaultProvider } = require("@aws-sdk/credential-provider-node");
 const auth = require("../middleware/auth");
-import {
+const {
   getSignedUrl,
   S3RequestPresigner,
-} from "@aws-sdk/s3-request-presigner";
+} = require("@aws-sdk/s3-request-presigner");
 
 router.get("/:id", auth, async (req, res) => {
   const credentials = defaultProvider({
