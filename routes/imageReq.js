@@ -1,6 +1,6 @@
 const router = require("express").Router();
-import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
-import { defaultProvider } from "@aws-sdk/credential-provider-node";
+const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
+const { defaultProvider } = require("@aws-sdk/credential-provider-node");
 
 router.get("/:id", async (req, res) => {
   const credentials = defaultProvider({
