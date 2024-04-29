@@ -2,6 +2,10 @@ const router = require("express").Router();
 const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 const { defaultProvider } = require("@aws-sdk/credential-provider-node");
 const auth = require("../middleware/auth");
+import {
+  getSignedUrl,
+  S3RequestPresigner,
+} from "@aws-sdk/s3-request-presigner";
 
 router.get("/:id", auth, async (req, res) => {
   const credentials = defaultProvider({
@@ -20,13 +24,13 @@ router.get("/:id", auth, async (req, res) => {
     endpoint: "https://s3.us-central-1.wasabisys.com",
   });
 
-  //get a presigned link to the image from the bucket and send it to the client
+  //get a presigned link to the key from the bucket and send it to the client
   //if no image is found, send a 404 status
 
   try {
     const command = new GetObjectCommand(options);
-    const url = await client.getSignedUrl(command, { expiresIn: 3600 });
-    res.send(url);
+    const response = getSignedUrl(client, command, { expires: 3600 });
+    res.send(response);
   } catch (err) {
     res.status(404).send("Image not found");
   }
