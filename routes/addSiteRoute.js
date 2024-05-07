@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
     pages,
     page,
     limit,
-    data: { type: "FeatureCollection", features: [...results] },
+    data: results,
     message: "Sites loaded",
   });
 });
@@ -33,11 +33,9 @@ router.get("/trees/:id", async (req, res) => {
 
     console.log(records);
     if (!records)
-      return res
-        .status(404)
-        .send({
-          message: `No trees found for site ${sites.properties.siteID}`,
-        });
+      return res.status(404).send({
+        message: `No trees found for site ${sites.properties.siteID}`,
+      });
 
     return res.status(200).send({
       data: { trees: [...records] },
