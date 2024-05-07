@@ -4,9 +4,22 @@ const { Site, validate } = require("../models/sites");
 const { Tree } = require("../models/trees");
 //get all sites
 router.get("/", async (req, res) => {
-  const sites = await Site.find();
+
+  {
+    const page = parseInt(req.query.page) || 1; // default to page 1
+    const limit = parseInt(req.query.limit) || 50; // default limit to 10 items
+    const skip = (page - 1) * limit;
+    
+    const total = await Site.countDocuments();
+    const pages = Math.ceil(total / limit);
+    const results = await Site.find().skip(skip).limit(limit);
+
   res.status(200).send({
-    data: { type: "FeatureCollection", features: [...sites] },
+    total,
+    pages,
+    page,
+    limit,
+    data: { type: "FeatureCollection", features: [...results] },
     message: "Sites loaded",
   });
 });
