@@ -6,6 +6,24 @@ const auth = require("../middleware/auth");
 const { User } = require("../models/user");
 const jwt = require("jsonwebtoken");
 
+//get total amount of trees
+
+router.get("/totalcount", async (req, res) => {
+  const trees = await Tree.find();
+  res.status(200).send({ data: trees.length, message: "Trees loaded" });
+});
+
+//get all trees in a site
+router.get("/site/:id", async (req, res) => {
+  const site = await Site.findById(req.params.id);
+  if (!site) return res.status(404).send({ message: "Site not found" });
+  const trees = await Tree.find({ siteID: site._id });
+  res.status(200).send({
+    data: { type: "FeatureCollection", features: [...trees] },
+    message: `Trees loaded for site ${site.properties.siteID}`,
+  });
+});
+
 //get all trees
 router.get("/", async (req, res) => {
   const trees = await Tree.find();
