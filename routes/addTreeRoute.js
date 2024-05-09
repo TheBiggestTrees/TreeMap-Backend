@@ -9,8 +9,8 @@ const jwt = require("jsonwebtoken");
 //get total amount of trees
 
 router.get("/totalcount", async (req, res) => {
-  const trees = await Tree.find();
-  res.status(200).send({ data: trees.length, message: "Trees loaded" });
+  const trees = await Tree.countDocuments();
+  res.status(200).send({ data: trees, message: "Trees loaded" });
 });
 
 //get all trees in a site
