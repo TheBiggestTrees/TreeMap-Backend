@@ -2,7 +2,8 @@ const router = require("express").Router();
 const Joi = require("joi");
 const { Site, validate } = require("../models/sites");
 const { Tree } = require("../models/trees");
-//get all sites
+
+//get sites by page
 router.get("/", async (req, res) => {
   const page = parseInt(req.query.page) || 1; // default to page 1
   const limit = parseInt(req.query.limit) || 50; // default limit to 10 items
@@ -19,7 +20,7 @@ router.get("/", async (req, res) => {
   });
 });
 
-//get all siteID
+//get all siteID's
 router.get("/siteIDs", async (req, res) => {
   const sites = await Site.find().select("properties.siteID");
   res.status(200).send({ data: sites, message: "SiteID's loaded" });
