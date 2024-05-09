@@ -21,7 +21,6 @@ router.get("/site/:id", async (req, res) => {
 
   const trees = await Tree.find({ _id: { $in: site.properties.trees } });
 
-  console.log(trees);
   res.status(200).send({
     data: { type: "FeatureCollection", features: [...trees] },
     message: `Trees loaded for site ${site.properties.siteID}`,
