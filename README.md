@@ -23,22 +23,29 @@ This is a Node.js application that uses Express.js for routing and MongoDB for d
 
 - `routes/`: This folder contains all the route definitions for our API. Each file corresponds to a route on the router.
 
-  - `addSiteRoute.js`: Defines the route for adding sites.
-    - `GET /`: Get sites by page.
-    - `GET /siteIDs`: Get all site IDs.
-    - `GET /totalcount`: Get the total count of sites.
-    - `GET /trees/:id`: Get all trees by their IDs for a specific site by the site's ID.
-    - `POST /`: Create a site.
-    - `PUT /:id`: Edit a site by its ID.
-  - `addTreeRoute.js`: Defines the route for adding trees.
-    - `GET /totalcount`: Get the total count of trees.
-    - `GET /site/:id`: Get all trees in a site by the site's ID.
-    - `GET /`: Get all trees.
-    - `GET /:id`: Get a tree by its ID.
-    - `POST /:id`: Create a tree. This endpoint requires authentication.
-  - `users.js`: Defines the routes for user management.
-  - `auth.js`: Defines the routes for authentication.
-  - `imageReq.js`: Defines the route for image requests.
+  - `addSiteRoute.js` : Defines the route for adding sites. The actual endpoints are:
+    - `GET /site`: Get sites by page.
+    - `GET /site/siteIDs`: Get all site IDs.
+    - `GET /site/totalcount`: Get the total count of sites.
+    - `GET /site/trees/:id`: Get all trees by their IDs for a specific site by the site's ID.
+    - `POST /site`: Create a site.
+    - `PUT /site/:id`: Edit a site by its ID.
+  - `addTreeRoute.js`: Defines the route for adding trees. The actual endpoints are:
+    - `GET /tree/totalcount`: Get the total count of trees.
+    - `GET /tree/site/:id`: Get all trees in a site by the site's ID.
+    - `GET /tree`: Get all trees.
+    - `GET /tree/:id`: Get a tree by its ID.
+    - `POST /tree/:id`: Create a tree. This endpoint requires authentication.
+  - `users.js`: Defines the routes for user management. The actual endpoints are:
+    - `GET /users`: Get all users.
+    - `POST /users`: Create a new user.
+    - `PUT /users/:id`: Update a user.
+    - `DELETE /users/:id`: Delete a user.
+  - `auth.js`: Defines the routes for authentication. The actual endpoints are:
+    - `POST /auth/login`: Authenticate a user and return a token.
+    - `POST /auth/register`: Register a new user.
+  - `imageReq.js`: Defines the route for image requests. The actual endpoint is:
+    - `GET /images/:id`: Get an image by its ID.
 
 - `models/`: This folder contains the schema definitions for our Mongoose models.
 
