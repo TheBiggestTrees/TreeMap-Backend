@@ -5,18 +5,21 @@ const { Tree } = require("../models/trees");
 
 //get sites by page
 router.get("/", async (req, res) => {
-  const page = parseInt(req.query.page) || 1; // default to page 1
-  const limit = parseInt(req.query.limit) || 10; // default limit to 10 items
-  const skip = (page - 1) * limit;
+  // const page = parseInt(req.query.page) || 1; // default to page 1
+  // const limit = parseInt(req.query.limit) || 10; // default limit to 10 items
+  // const skip = (page - 1) * limit;
 
-  const total = await Site.countDocuments();
-  const pages = Math.ceil(total / limit);
-  const results = await Site.find().skip(skip).limit(limit);
+  // const total = await Site.countDocuments();
+  // const pages = Math.ceil(total / limit);
+  // const results = await Site.find().skip(skip).limit(limit);
+
+  const results = await Site.find();
 
   res.status(200).send({
-    pages,
+    // pages,
     data: results,
-    message: "Sites loaded for page" + page,
+    // message: "Sites loaded for page" + page,
+    message: "Sites loaded",
   });
 });
 
