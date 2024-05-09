@@ -19,6 +19,12 @@ router.get("/", async (req, res) => {
   });
 });
 
+//get all siteID
+router.get("/siteID", async (req, res) => {
+  const sites = await Site.find().select("properties.siteID");
+  res.status(200).send({ data: sites, message: "SiteID's loaded" });
+});
+
 //get total amount of sites
 router.get("/totalcount", async (req, res) => {
   const sites = await Site.countDocuments();
