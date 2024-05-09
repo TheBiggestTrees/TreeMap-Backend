@@ -19,7 +19,10 @@ router.get("/site/:id", async (req, res) => {
   if (!site) return res.status(404).send({ message: "Site not found" });
   //find trees by site properties trees array
 
-  const trees = await Tree.find({ _id: { $in: site.properties.trees } });
+  const validTreeIds = site.properties.trees.filter((id) =>
+    mongoose.Types.ObjectId.isValid(id)
+  );
+  const trees = await Tree.find({ _id: { $in: validTreeIds } });
   if (!trees) return res.status(404).send({ message: "No trees found" });
 
   console.log([...trees]);
