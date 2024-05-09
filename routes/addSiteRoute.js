@@ -6,7 +6,7 @@ const { Tree } = require("../models/trees");
 //get sites by page
 router.get("/", async (req, res) => {
   const page = parseInt(req.query.page) || 1; // default to page 1
-  const limit = parseInt(req.query.limit) || 50; // default limit to 10 items
+  const limit = parseInt(req.query.limit) || 10; // default limit to 10 items
   const skip = (page - 1) * limit;
 
   const total = await Site.countDocuments();
