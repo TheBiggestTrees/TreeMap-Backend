@@ -2,14 +2,14 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3000;
 const addSiteRoute = require("./routes/addSiteRoute");
 const addTreeRoute = require("./routes/addTreeRoute");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const images = require("./routes/imageReq");
 
-const uri = process.env.MONGO_URI;
+const uri = process.env.MONGO_URI || "mongodb://localhost:27017/TreeMapDB";
 
 mongoose
   .connect(uri)
