@@ -13,13 +13,16 @@ router.get("/", async (req, res) => {
   const results = await Site.find().skip(skip).limit(limit);
 
   res.status(200).send({
-    total,
     pages,
-    page,
-    limit,
     data: results,
-    message: "Sites loaded",
+    message: "Sites loaded for page" + page,
   });
+});
+
+//get total amount of sites
+router.get("/totalcount", async (req, res) => {
+  const sites = await Site.countDocuments();
+  res.status(200).send({ data: sites, message: "Sites loaded" });
 });
 
 //get all trees by _id by site _id
