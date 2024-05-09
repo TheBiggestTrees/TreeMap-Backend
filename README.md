@@ -63,6 +63,11 @@ This is a Node.js application that uses Express.js for routing and MongoDB for d
 
 - `PORT`: The port on which the server will listen.
 - `MONGO_URI`: The URI of the MongoDB database.
+- `AWS_ACCESS_KEY_ID`: Your AWS access key ID for accessing AWS services.
+- `AWS_SECRET_ACCESS_KEY`: Your AWS secret access key for accessing AWS services.
+- `AWS_REGION`: The AWS region where your resources are located.
+- `AWS_BUCKET_NAME`: The name of the AWS S3 bucket used for storing files.
+- `JWTPRIVATEKEY`: The private key used for signing and verifying JSON Web Tokens (JWTs).
 
 ## API Endpoints
 
