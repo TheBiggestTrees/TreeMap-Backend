@@ -22,7 +22,7 @@ router.get("/site/:id", async (req, res) => {
   const trees = await Tree.find({ _id: { $in: site.properties.trees } });
   if (!trees) return res.status(404).send({ message: "No trees found" });
 
-  console.log(trees);
+  console.log([...trees]);
 
   res.status(200).send({
     data: { type: "FeatureCollection", features: [...trees] },
