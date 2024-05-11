@@ -14,6 +14,7 @@ router.get("/", async (req, res) => {
   // const results = await Site.find().skip(skip).limit(limit);
 
   const results = await Site.find();
+  if (!results) return res.status(404).send({ message: "No sites found" });
 
   res.status(200).send({
     // pages,
