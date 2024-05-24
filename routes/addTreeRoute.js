@@ -129,8 +129,10 @@ router.put("/edit/:id", auth, async (req, res) => {
   });
 
   const { error } = schema.validate(req.body);
-  if (error) return res.status(400).send({ message: error.details[0].message });
-
+  if (error) {
+    console.log(error.details[0].message);
+    return res.status(400).send({ message: error.details[0].message });
+  }
   const tree = await Tree.findById(req.params.id);
   if (!tree) return res.status(404).send({ message: "Tree not found" });
 
