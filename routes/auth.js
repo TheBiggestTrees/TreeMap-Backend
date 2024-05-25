@@ -19,6 +19,8 @@ router.post("/", async (req, res) => {
     return res.status(400).send({ message: "Invalid email or password" });
 
   const token = user.generateAuthToken();
+  const decodedToken = jwt.decode(token);
+
   res.status(200).send({
     data: token,
     userID: user._id,
@@ -31,6 +33,7 @@ router.post("/", async (req, res) => {
       day: user.day,
       year: user.year,
     },
+    expiresAt: decodedToken.exp * 1000,
     message: "Signing in please wait...",
   });
 });
