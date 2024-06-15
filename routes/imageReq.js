@@ -21,7 +21,7 @@ router.get("/:id", auth, async (req, res) => {
   const client = new S3Client({
     region: "us-central-1",
     credentials,
-    endpoint: "https://s3.us-central-1.wasabisys.com",
+    endpoint: "http://162.207.79.207:9000",
   });
 
   //get a presigned link to the key from the bucket and send it to the client
