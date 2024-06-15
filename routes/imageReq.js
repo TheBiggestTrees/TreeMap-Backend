@@ -14,7 +14,7 @@ router.get("/:id", auth, async (req, res) => {
   });
 
   const options = {
-    Bucket: "easytree",
+    Bucket: "treemap",
     Key: `treeimages/${req.params.id}`,
   };
 
